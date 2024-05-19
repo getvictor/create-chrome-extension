@@ -1,1 +1,1 @@
-Code examples for [Chrome extension software development articles from Victor on Software](https://victoronsoftware.com)
+Code examples for [Chrome extension software development articles](https://victoronsoftware.com/posts/create-chrome-extension/).
