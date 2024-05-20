@@ -3,7 +3,6 @@ import webpack from 'webpack'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 
 const config: webpack.Configuration = {
-    devtool: 'inline-source-map',
     entry: {
         background: './src/background.ts',
         content: './src/content.ts',
