@@ -51,7 +51,13 @@ chrome.storage.sync.get(keys, (data) => {
         textToBlur = data.item
     }
     // Only start observing the DOM if the extension is enabled and there is text to blur.
-    if (enabled && textToBlur.trim().length > 0) {
+    if (enabled) {
+        observe()
+    }
+})
+
+function observe() {
+    if (textToBlur.trim().length > 0) {
         observer.observe(document, {
             attributes: false,
             characterData: true,
@@ -60,5 +66,19 @@ chrome.storage.sync.get(keys, (data) => {
         })
         // Loop through all elements on the page for initial processing.
         processNode(document)
+    }
+}
+
+// Listen for messages from popup and service worker.
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.enabled !== undefined) {
+        console.log("Received message from sender %s", sender.id, request)
+        enabled = request.enabled
+        if (enabled) {
+            observe()
+        } else {
+            observer.disconnect()
+        }
+        sendResponse({title: document.title, url: window.location.href})
     }
 })
