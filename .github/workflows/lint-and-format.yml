@@ -18,6 +18,8 @@ concurrency:
 defaults:
   run:
     shell: bash
+    working-directory: ./4-linting-and-formatting
+  
 
 permissions:
   contents: read
