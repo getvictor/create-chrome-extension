@@ -5,11 +5,11 @@ on:
     branches:
       - main
     paths: # We only run the workflow if the code in these directories changes
-      - '.gihub/workflows/lint-and-format.yml' # This file
+      - '.github/workflows/lint-and-format.yml' # This file
       - '4-linting-and-formatting/**'
   pull_request:
     paths:
-      - '.gihub/workflows/lint-and-format.yml' # This file
+      - '.github/workflows/lint-and-format.yml' # This file
       - '4-linting-and-formatting/**'
 
 # This allows a subsequently queued workflow run to interrupt previous runs
