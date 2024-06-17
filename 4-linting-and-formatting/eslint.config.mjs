@@ -1,11 +1,11 @@
 // @ts-check
 
-import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
+import eslint from "@eslint/js"
+import tseslint from "typescript-eslint"
 
 const config = tseslint.config(
   eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
   {
     ignores: ["dist/**/*"],
@@ -18,6 +18,6 @@ const config = tseslint.config(
       },
     },
   },
-);
+)
 
-export default config;
+export default config

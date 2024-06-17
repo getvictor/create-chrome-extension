@@ -6,11 +6,11 @@
   "author": "getvictor",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config webpack.prod.ts",
+    "start": "webpack --watch --config webpack.dev.ts",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "lint": "eslint .",
-    "start": "webpack --watch --config webpack.dev.ts"
+    "build": "webpack --config webpack.prod.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.5.0",
