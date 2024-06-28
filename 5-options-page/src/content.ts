@@ -1,7 +1,11 @@
 import { Message, StoredConfig, TabResponse } from "./common"
 
 const blurFilter = "blur(6px)"
-let textToBlur = ""
+let config: StoredConfig = {
+  enabled: true,
+  item: "",
+  excludeHost: "",
+}
 
 // Search this DOM node for text to blur and blur the parent element if found.
 function processNode(node: Node) {
@@ -21,7 +25,7 @@ function processNode(node: Node) {
       // Already blurred
       return
     }
-    if (node.textContent.includes(textToBlur)) {
+    if (node.textContent.includes(config.item ?? "")) {
       blurElement(parent)
     }
   }
@@ -53,25 +57,17 @@ const observer = new MutationObserver((mutations) => {
 })
 
 // Enable the content script by default.
-let enabled = true
-const keys = ["enabled", "item"]
-
-chrome.storage.sync.get(keys, (data) => {
-  const config = data as StoredConfig
-  if (config.enabled === false) {
-    enabled = false
-  }
-  if (config.item) {
-    textToBlur = config.item
-  }
+chrome.storage.sync.get(null, (data) => {
+  // Save the config to a global variable.
+  config = data as StoredConfig
   // Only start observing the DOM if the extension is enabled and there is text to blur.
-  if (enabled) {
+  if (config.enabled && config.item && config.excludeHost !== window.location.host) {
     observe()
   }
 })
 
 function observe() {
-  if (textToBlur.trim().length > 0) {
+  if (config.item && config.item.trim().length > 0) {
     observer.observe(document, {
       attributes: false,
       characterData: true,
@@ -88,16 +84,23 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const message = request as Message
   if (message.enabled !== undefined) {
     console.log("Received message from sender %s", sender.id, request)
-    enabled = message.enabled
-    if (enabled) {
+    config.enabled = message.enabled
+    if (config.enabled && config.item && config.excludeHost !== window.location.host) {
       observe()
     } else {
       observer.disconnect()
     }
-    const response: TabResponse = {
-      title: document.title,
-      url: window.location.href,
-    }
-    sendResponse(response)
   }
+  if (message.excludeHost !== undefined) {
+    console.log("Received excludeHost message from sender %s", sender.id, request)
+    config.excludeHost = message.excludeHost
+    if (config.excludeHost === window.location.host) {
+      observer.disconnect()
+    }
+  }
+  const response: TabResponse = {
+    title: document.title,
+    url: window.location.href,
+  }
+  sendResponse(response)
 })
