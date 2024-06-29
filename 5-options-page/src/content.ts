@@ -61,7 +61,11 @@ chrome.storage.sync.get(null, (data) => {
   // Save the config to a global variable.
   config = data as StoredConfig
   // Only start observing the DOM if the extension is enabled and there is text to blur.
-  if (config.enabled && config.item && config.excludeHost !== window.location.host) {
+  if (
+    config.enabled &&
+    config.item &&
+    config.excludeHost !== window.location.host
+  ) {
     observe()
   }
 })
@@ -85,14 +89,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (message.enabled !== undefined) {
     console.log("Received message from sender %s", sender.id, request)
     config.enabled = message.enabled
-    if (config.enabled && config.item && config.excludeHost !== window.location.host) {
+    if (
+      config.enabled &&
+      config.item &&
+      config.excludeHost !== window.location.host
+    ) {
       observe()
     } else {
       observer.disconnect()
     }
   }
   if (message.excludeHost !== undefined) {
-    console.log("Received excludeHost message from sender %s", sender.id, request)
+    console.log(
+      "Received excludeHost message from sender %s",
+      sender.id,
+      request,
+    )
     config.excludeHost = message.excludeHost
     if (config.excludeHost === window.location.host) {
       observer.disconnect()

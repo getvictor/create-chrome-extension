@@ -68,3 +68,21 @@ input.addEventListener("change", (event) => {
     void chrome.storage.sync.set({ item: event.target.value })
   }
 })
+
+// Options page
+const optionsElement = document.querySelector("#go-to-options")
+if (!optionsElement) {
+  console.error("Could not find options element")
+} else {
+  optionsElement.addEventListener("click", function () {
+    // This code is based on Chrome for Developers documentation
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (chrome.runtime.openOptionsPage) {
+      chrome.runtime.openOptionsPage().catch((error: unknown) => {
+        console.error("Could not open options page", error)
+      })
+    } else {
+      window.open(chrome.runtime.getURL("options.html"))
+    }
+  })
+}

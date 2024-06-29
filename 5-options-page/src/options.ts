@@ -3,9 +3,7 @@ import { Message, StoredConfig } from "./common"
 chrome.storage.sync.get(null, (data) => {
   const config = data as StoredConfig
   const excludeHost = config.excludeHost ?? ""
-  const input = document.getElementById(
-    `exclude_host`,
-  ) as HTMLInputElement
+  const input = document.getElementById(`exclude_host`) as HTMLInputElement
   input.value = excludeHost
   input.addEventListener("change", (event) => {
     if (event.target instanceof HTMLInputElement) {
@@ -21,7 +19,7 @@ chrome.storage.sync.get(null, (data) => {
             if (tab.id !== undefined) {
               chrome.tabs
                 .sendMessage(tab.id, message)
-                .catch((error: unknown) => {
+                .catch(() => {
                   // We ignore tabs without a proper URL, like chrome://extensions/
                   // Do nothing
                 })
