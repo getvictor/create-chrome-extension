@@ -1,4 +1,5 @@
 import { Message, StoredConfig } from "./common"
+import "./options.css"
 
 chrome.storage.sync.get(null, (data) => {
   const config = data as StoredConfig

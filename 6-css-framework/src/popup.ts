@@ -1,4 +1,5 @@
 import { Message, setBadgeText, StoredConfig, TabResponse } from "./common"
+import "./popup.css"
 
 console.log("Hello, world from popup!")
 
