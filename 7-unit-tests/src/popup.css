@@ -1,0 +1,9 @@
+@import "./common.css";
+
+.my-center {
+  @apply w-full inline-flex items-center justify-center;
+}
+
+.my-button-link {
+  @apply text-indigo-400 m-1.5 px-3 py-1 text-xs outline-none focus:outline-none ease-linear transition-all duration-150;
+}

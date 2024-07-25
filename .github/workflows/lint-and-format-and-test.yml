@@ -1,0 +1,51 @@
+name: Lint check, format check, build, and test
+
+on:
+  push:
+    branches:
+      - main
+    paths: # We only run the workflow if the code in these directories changes
+      - '.github/workflows/lint-and-format-and-test.yml' # This file
+      - '7-unit-tests/**'
+  pull_request:
+    paths:
+      - '.github/workflows/lint-and-format-and-test.yml' # This file
+      - '7-unit-tests/**'
+
+# This allows a subsequently queued workflow run to interrupt previous runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id}}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./7-unit-tests
+  
+
+permissions:
+  contents: read
+
+jobs:
+  lint-format-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          npm install --no-save
+
+      - name: Format check and lint
+        run: |
+          npm run format-check
+          npm run lint
+
+      - name: Build
+        run: |
+          npm run build
+
+      - name: Test
+        run: |
+          npm run test

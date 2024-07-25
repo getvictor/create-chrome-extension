@@ -1,0 +1,23 @@
+<html lang="en">
+  <head>
+    <title>My popup</title>
+  </head>
+  <body>
+    <label class="my-center cursor-pointer">
+      <input id="enabled" type="checkbox" class="sr-only peer" />
+      <span
+        class="m-1.5 relative w-16 h-8 bg-gray-200 rounded-full after:content-[''] after:absolute after:top-0.5
+         after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-7 after:w-7
+         after:transition-all peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300
+         peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white
+         peer-checked:bg-blue-600"
+      ></span>
+    </label>
+    <label for="item" class="invisible"></label>
+    <input class="my-input w-52" id="item" type="text" />
+    <div class="my-center">
+      <button id="go-to-options" class="my-button-link">Advanced options</button>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
