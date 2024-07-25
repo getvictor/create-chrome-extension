@@ -18,12 +18,10 @@ chrome.storage.sync.get(null, (data) => {
           const message: Message = { excludeHost: updatedExcludeWebsite }
           for (const tab of tabs) {
             if (tab.id !== undefined) {
-              chrome.tabs
-                .sendMessage(tab.id, message)
-                .catch(() => {
-                  // We ignore tabs without a proper URL, like chrome://extensions/
-                  // Do nothing
-                })
+              chrome.tabs.sendMessage(tab.id, message).catch(() => {
+                // We ignore tabs without a proper URL, like chrome://extensions/
+                // Do nothing
+              })
             }
           }
         })
